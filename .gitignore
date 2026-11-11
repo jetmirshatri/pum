@@ -1,0 +1,26 @@
+# Env files - both .env*  and *.env naming conventions
+.env*
+*.env
+
+# Build outputs
+node_modules
+build
+dist
+coverage
+*.tsbuildinfo
+
+# React Router
+.react-router/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+.idea
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# vitex update backups
+*.bak-*

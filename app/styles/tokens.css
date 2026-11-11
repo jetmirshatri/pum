@@ -1,0 +1,89 @@
+/*
+ * Design tokens: the scales every component draws from. Colours live in
+ * theme.css. Components read these with var(); change a value here and every
+ * component follows. See README.md for the rules.
+ */
+:root {
+  /* Space: rem steps on a 4px grid. */
+  --v-space-1: 0.25rem;
+  --v-space-2: 0.5rem;
+  --v-space-3: 0.75rem;
+  --v-space-4: 1rem;
+  --v-space-5: 1.5rem;
+  --v-space-6: 2rem;
+  --v-space-7: 3rem;
+  --v-space-8: 4rem;
+  --v-space-9: 6rem;
+  --v-space-10: 8rem;
+
+  /* Fonts: system stacks. A web font must be self-hosted: the CSP allows
+     fonts from the app's own origin only. */
+  --v-font-sans: system-ui, sans-serif;
+  --v-font-mono:
+    ui-monospace, 'Cascadia Code', 'JetBrains Mono', menlo, consolas, monospace;
+
+  /*
+   * Type scale, fluid from one ratio: step n is 16px × 1.2^n on a 360px
+   * screen and 18px × 1.25^n on a 1280px screen, linear in between.
+   * xs…3xl are steps -2…4; the display sizes 4xl and 5xl are steps 6 and 8.
+   */
+  --v-text-xs: clamp(0.6944rem, 0.6844rem + 0.0444vw, 0.72rem);
+  --v-text-sm: clamp(0.8333rem, 0.8072rem + 0.1159vw, 0.9rem);
+  --v-text-base: clamp(1rem, 0.9511rem + 0.2174vw, 1.125rem);
+  --v-text-lg: clamp(1.2rem, 1.1193rem + 0.3587vw, 1.4063rem);
+  --v-text-xl: clamp(1.44rem, 1.3156rem + 0.5527vw, 1.7578rem);
+  --v-text-2xl: clamp(1.728rem, 1.5444rem + 0.8161vw, 2.1973rem);
+  --v-text-3xl: clamp(2.0736rem, 1.8103rem + 1.1704vw, 2.7466rem);
+  --v-text-4xl: clamp(2.986rem, 2.4751rem + 2.2705vw, 4.2915rem);
+  --v-text-5xl: clamp(4.2998rem, 3.3585rem + 4.1838vw, 6.7055rem);
+  --v-leading-tight: 1;
+  --v-leading-heading: 1.2;
+  --v-leading-body: 1.6;
+  --v-leading-relaxed: 1.75;
+  --v-weight-regular: 400;
+  --v-weight-medium: 500;
+  --v-weight-semibold: 600;
+  --v-weight-bold: 700;
+  --v-weight-extrabold: 800;
+  --v-tracking-tight: -0.03em;
+  --v-tracking-heading: -0.02em;
+  --v-tracking-label: 0.08em;
+
+  /* Shape */
+  --v-radius-sm: 0.5rem;
+  --v-radius-md: 0.75rem;
+  --v-radius-lg: 1rem;
+  --v-radius-xl: 1.5rem;
+  --v-radius-full: 999px;
+  --v-border-hairline: 1px;
+  --v-border-emphasis: 2px;
+
+  /* Sizes: content widths, the minimum hit area (44px) and icons. */
+  --v-size-content: 78rem;
+  --v-size-wide: 56rem;
+  --v-size-prose: 42rem;
+  --v-size-compact: 32rem;
+  --v-size-hit: 2.75rem;
+  --v-size-icon-sm: 1rem;
+  --v-size-icon-md: 1.5rem;
+  --v-size-icon-lg: 2rem;
+
+  /* Layers: every z-index comes from here. */
+  --v-z-below: -1;
+  --v-z-base: 0;
+  --v-z-raised: 1;
+  --v-z-floating: 10;
+  --v-z-overlay: 1000;
+  --v-z-critical: 99999;
+
+  /* Motion */
+  --v-duration-fast: 150ms;
+  --v-duration-base: 300ms;
+  --v-duration-slow: 500ms;
+  --v-ease-standard: ease-in-out;
+  --v-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --v-ease-spring: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Effects */
+  --v-blur-image: 0.625rem;
+}

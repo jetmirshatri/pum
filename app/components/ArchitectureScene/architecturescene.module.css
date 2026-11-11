@@ -1,0 +1,488 @@
+/* stylelint-disable no-descending-specificity -- The tiles of the drawing share their face and edge. */
+
+.scene {
+  scroll-margin-top: calc(var(--v-size-header) + var(--v-space-5));
+  min-width: 0;
+  color: var(--text-primary);
+}
+
+.topline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--v-space-2) var(--v-space-4);
+  align-items: center;
+  justify-content: space-between;
+
+  padding: var(--v-space-2) var(--v-space-2) var(--v-space-2) var(--v-space-4);
+  border-bottom: var(--v-border-hairline) solid var(--border-default);
+}
+
+.topline > span {
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  color: var(--text-muted);
+  letter-spacing: var(--v-tracking-label);
+}
+
+.topline button {
+  cursor: pointer;
+
+  display: inline-flex;
+  gap: var(--v-space-2);
+  align-items: center;
+
+  min-height: var(--v-size-hit);
+  padding: var(--v-space-1) var(--v-space-3);
+  border: var(--v-border-hairline) solid var(--border-rule);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: var(--v-tracking-label);
+
+  background: transparent;
+
+  transition:
+    color var(--v-duration-fast) var(--v-ease-out),
+    border-color var(--v-duration-fast) var(--v-ease-out),
+    background-color var(--v-duration-fast) var(--v-ease-out);
+}
+
+.topline button:hover:enabled {
+  background: var(--accent-subtle-bg);
+}
+
+.topline button:active:enabled {
+  color: var(--text-accent);
+}
+
+.topline button:disabled {
+  cursor: default;
+  border-color: var(--border-default);
+  color: var(--text-muted);
+}
+
+.artwork {
+  overflow: hidden;
+  padding-top: var(--v-space-4);
+}
+
+.diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The drawing: hairlines for what rests, ink for what the command uses, and
+   red for the command itself and the data on the move. */
+.wire path {
+  fill: none;
+  stroke: var(--border-default);
+  stroke-width: 1;
+  transition: stroke var(--v-duration-base) var(--v-ease-out);
+}
+
+.wire[data-active='true'] > path:first-child {
+  stroke: var(--border-rule);
+}
+
+.wire .packet {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+.drop-line {
+  fill: none;
+  stroke: var(--border-rule);
+  stroke-dasharray: 4 5;
+  transition: stroke var(--v-duration-base) var(--v-ease-out);
+}
+
+.drop-line[data-active='true'] {
+  stroke: var(--text-primary);
+}
+
+.tile-face {
+  fill: var(--surface-raised);
+  stroke: var(--border-rule);
+  stroke-width: 1;
+  transition:
+    fill var(--v-duration-base) var(--v-ease-out),
+    stroke var(--v-duration-base) var(--v-ease-out);
+}
+
+.tile-edge {
+  fill: var(--surface-sunken);
+  stroke: var(--border-rule);
+  stroke-width: 1;
+  transition:
+    fill var(--v-duration-base) var(--v-ease-out),
+    stroke var(--v-duration-base) var(--v-ease-out);
+}
+
+.foundation {
+  color: var(--text-muted);
+  transition: color var(--v-duration-base) var(--v-ease-out);
+}
+
+.foundation[data-active='true'] {
+  color: var(--text-primary);
+}
+
+.foundation-name {
+  font-size: 13px;
+  font-weight: var(--v-weight-bold);
+  fill: currentcolor;
+}
+
+.foundation[data-active='true'] .tile-face {
+  stroke: var(--text-primary);
+}
+
+.foundation[data-active='true'] .tile-edge {
+  fill: var(--story-base);
+  stroke: var(--text-primary);
+}
+
+.board-face {
+  fill: var(--surface-raised);
+  stroke: var(--text-primary);
+  stroke-width: 1.5;
+}
+
+.board-edge {
+  fill: var(--text-primary);
+  stroke: var(--text-primary);
+  stroke-width: 1.5;
+}
+
+.board-inset {
+  fill: none;
+  stroke: var(--border-rule);
+  stroke-dasharray: 3 4;
+}
+
+.board-label {
+  font-family: var(--v-font-mono);
+  font-size: 10px;
+  font-weight: var(--v-weight-bold);
+  letter-spacing: 1.2px;
+
+  fill: var(--surface-page);
+}
+
+.command-tile .tile-face {
+  fill: var(--surface-page);
+  stroke-dasharray: 3 3;
+}
+
+.command-tile .tile-edge {
+  opacity: 0;
+}
+
+.command-tile[data-active='true'] .tile-face {
+  fill: color-mix(in srgb, var(--accent) 14%, var(--surface-raised));
+  stroke: var(--accent);
+  stroke-dasharray: none;
+}
+
+.command-tile[data-active='true'] .tile-edge {
+  opacity: 1;
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+.tile-label {
+  font-family: var(--v-font-mono);
+  font-size: 12px;
+  fill: var(--text-muted);
+}
+
+.command-tile[data-active='true'] .tile-label {
+  font-weight: var(--v-weight-bold);
+  fill: var(--text-primary);
+}
+
+.file-label {
+  font-family: var(--v-font-mono);
+  font-size: 14px;
+  font-weight: var(--v-weight-semibold);
+  fill: var(--text-muted);
+}
+
+.file[data-active='true'] .file-label {
+  fill: var(--text-primary);
+}
+
+/* Your source is yours: green. What the build hands on has no owner. */
+.file[data-side='source'][data-active='true'] .tile-face {
+  fill: color-mix(in srgb, var(--story-yours) 14%, var(--surface-raised));
+  stroke: var(--story-yours);
+}
+
+.file[data-side='source'][data-active='true'] .tile-edge {
+  fill: color-mix(in srgb, var(--story-yours) 54%, var(--surface-raised));
+  stroke: var(--story-yours);
+}
+
+.file[data-side='output'][data-active='true'] .tile-face {
+  stroke: var(--text-primary);
+}
+
+.file[data-side='output'][data-active='true'] .tile-edge {
+  fill: var(--story-base);
+  stroke: var(--text-primary);
+}
+
+.side-label,
+.bottom-label {
+  font-family: var(--v-font-mono);
+  font-size: 10px;
+  font-weight: var(--v-weight-semibold);
+  letter-spacing: 1.5px;
+
+  fill: var(--text-muted);
+}
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--v-space-4);
+  padding: var(--v-space-4) var(--v-space-4) var(--v-space-5);
+}
+
+.legend li {
+  display: flex;
+  gap: var(--v-space-2);
+  align-items: center;
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  line-height: 1.35;
+  color: var(--text-muted);
+
+  transition: color var(--v-duration-base) var(--v-ease-out);
+}
+
+.legend li[data-active='true'] {
+  color: var(--text-primary);
+}
+
+.legend svg {
+  flex: none;
+  width: var(--v-size-icon-md);
+  height: var(--v-size-icon-md);
+}
+
+.legend small {
+  display: block;
+  font-size: inherit;
+  font-weight: var(--v-weight-medium);
+  color: var(--text-muted);
+}
+
+.commands {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: var(--v-border-hairline) solid var(--border-default);
+}
+
+.commands button {
+  cursor: pointer;
+
+  display: flex;
+  gap: var(--v-space-2);
+  align-items: center;
+  justify-content: center;
+
+  min-height: 3.5rem;
+  padding: var(--v-space-2);
+  border: 0;
+  border-right: var(--v-border-hairline) solid var(--border-default);
+  border-bottom: var(--v-border-hairline) solid var(--border-default);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-sm);
+  font-weight: var(--v-weight-bold);
+  color: var(--text-primary);
+
+  background: transparent;
+
+  transition:
+    color var(--v-duration-fast) var(--v-ease-out),
+    background-color var(--v-duration-fast) var(--v-ease-out);
+}
+
+.commands button:nth-child(3n) {
+  border-right: 0;
+}
+
+.commands button span {
+  font-size: var(--v-text-xs);
+  color: var(--text-accent);
+}
+
+.commands button:hover {
+  background: var(--accent-subtle-bg);
+}
+
+.commands button:active {
+  color: var(--text-accent);
+}
+
+.commands button[aria-pressed='true'] {
+  color: var(--surface-page);
+  background: var(--text-primary);
+}
+
+.commands button[aria-pressed='true'] span {
+  color: inherit;
+}
+
+/* The focus ring lies above the neighbouring tabs. */
+.commands button:focus-visible {
+  position: relative;
+  z-index: var(--v-z-raised);
+}
+
+.detail {
+  display: grid;
+  gap: var(--v-space-5);
+  align-items: center;
+
+  min-height: 20rem;
+  padding: var(--v-space-5) var(--v-space-4);
+}
+
+.detail-copy h2 {
+  font-size: var(--v-text-xl);
+  font-weight: var(--v-weight-extrabold);
+  letter-spacing: var(--v-tracking-heading);
+}
+
+.detail-copy p {
+  max-width: var(--v-size-prose);
+  margin-top: var(--v-space-3);
+  font-size: var(--v-text-sm);
+  color: var(--text-muted);
+}
+
+/* The command and what it leaves behind, as a terminal line. */
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v-space-3);
+
+  min-width: 0;
+  padding: var(--v-space-4);
+  border: var(--v-border-hairline) solid var(--border-rule);
+
+  font-family: var(--v-font-mono);
+  color: var(--v-terminal-text);
+
+  background: var(--v-terminal-bg);
+}
+
+.result code {
+  font-size: var(--v-text-sm);
+  font-weight: var(--v-weight-bold);
+  overflow-wrap: anywhere;
+}
+
+.result code span {
+  font-weight: var(--v-weight-medium);
+  color: var(--v-terminal-red);
+}
+
+.result-label {
+  display: flex;
+  gap: var(--v-space-2);
+  align-items: center;
+
+  font-size: var(--v-text-xs);
+  color: var(--v-terminal-muted);
+}
+
+.result-label i {
+  flex: none;
+  width: var(--v-space-2);
+  height: var(--v-space-2);
+  background: var(--v-terminal-green);
+}
+
+@media (--below-sm) {
+  .diagram {
+    width: calc(100% + var(--v-space-8));
+    max-width: none;
+    margin-inline: calc(var(--v-space-6) * -1);
+  }
+
+  .file-label,
+  .foundation-name {
+    font-size: 18px;
+  }
+
+  .side-label {
+    font-size: 14px;
+  }
+
+  .bottom-label {
+    display: none;
+  }
+}
+
+@media (--sm) {
+  .topline {
+    padding-left: var(--v-space-5);
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--v-space-4) var(--v-space-6);
+    justify-content: center;
+
+    padding-inline: var(--v-space-5);
+  }
+
+  .commands {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .commands button {
+    gap: var(--v-space-3);
+    min-height: 4rem;
+  }
+
+  .commands button:nth-child(3n) {
+    border-right: var(--v-border-hairline) solid var(--border-default);
+  }
+
+  .commands button:last-child {
+    border-right: 0;
+  }
+
+  .detail {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--v-space-6);
+    min-height: 12rem;
+    padding: var(--v-space-6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topline button,
+  .wire path,
+  .drop-line,
+  .tile-face,
+  .tile-edge,
+  .foundation,
+  .legend li,
+  .commands button {
+    transition: none;
+  }
+}

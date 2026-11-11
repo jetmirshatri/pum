@@ -1,0 +1,206 @@
+/*
+ * Global styles: a small reset, the element defaults and three utilities. They
+ * sit in cascade layers, so a CSS Module always wins over them, whatever the
+ * specificity.
+ */
+@layer reset, base, utilities;
+
+@import url('./tokens.css');
+@import url('./theme.css');
+
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+  }
+
+  /* A list that drops its bullets keeps its semantics with role="list". */
+  :where(ul, ol)[role='list'] {
+    padding: 0;
+    list-style: none;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+  }
+
+  img,
+  video {
+    height: auto;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* A fieldset groups controls without the browser's frame. */
+  fieldset {
+    min-inline-size: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  legend {
+    padding: 0;
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+  }
+}
+
+@layer base {
+  /* light-dark() in theme.css follows the color-scheme: the reader's system
+     setting, or the class that the theme switch puts on <html>. */
+  :root {
+    color: var(--text-primary);
+    color-scheme: light dark;
+    background-color: var(--surface-page);
+  }
+
+  html.light {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    min-height: 100dvh;
+
+    font-family: var(--v-font-sans);
+    font-size: var(--v-text-base);
+    line-height: var(--v-leading-body);
+
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: var(--v-leading-heading);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  a {
+    color: var(--link);
+    text-underline-offset: 0.15em;
+
+    &:hover {
+      color: var(--link-hover);
+    }
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--v-font-mono);
+  }
+
+  code {
+    font-size: 0.92em;
+  }
+
+  :focus-visible {
+    outline: var(--v-border-emphasis) solid var(--focus-ring);
+    outline-offset: var(--v-border-emphasis);
+    box-shadow: 0 0 0 var(--v-space-1) var(--focus-halo);
+  }
+
+  ::selection {
+    color: var(--selection-text);
+    background-color: var(--selection-bg);
+  }
+}
+
+@layer utilities {
+  /* Hidden on screen, read by screen readers. */
+  .sr-only {
+    position: absolute;
+
+    overflow: hidden;
+
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+
+    white-space: nowrap;
+
+    clip-path: inset(50%);
+  }
+
+  /* The first link on every page: it appears on keyboard focus. */
+  .skip-link {
+    position: absolute;
+    z-index: var(--v-z-critical);
+    top: var(--v-space-4);
+    left: var(--v-space-4);
+    transform: translateY(calc(-100% - var(--v-space-8)));
+
+    padding: var(--v-space-2) var(--v-space-4);
+    border-radius: var(--v-radius-sm);
+
+    color: var(--text-on-accent);
+
+    background-color: var(--accent);
+
+    transition: transform var(--v-duration-fast) var(--v-ease-out);
+
+    &:focus {
+      transform: none;
+    }
+  }
+
+  /* The notice for visitors without JavaScript. */
+  .no-js {
+    display: block;
+
+    padding: var(--v-space-2) var(--v-space-4);
+
+    color: var(--text-primary);
+    text-align: center;
+
+    background-color: var(--warning-subtle-bg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skip-link {
+      transition: none;
+    }
+  }
+}

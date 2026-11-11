@@ -1,0 +1,213 @@
+/* --hue is the colour of an owner: green for yours, red for what the
+   template or the CLI manages, gray for what both share. */
+.editor,
+.tree li {
+  --hue: var(--story-base);
+}
+
+.editor[data-owner='you'],
+.tree li[data-owner='you'] {
+  --hue: var(--story-yours);
+}
+
+.editor[data-owner='tpl'],
+.editor[data-owner='rec'],
+.tree li[data-owner='tpl'],
+.tree li[data-owner='rec'] {
+  --hue: var(--text-accent);
+}
+
+.editor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+
+  margin-top: var(--v-space-4);
+  border: var(--v-border-frame) solid var(--text-primary);
+
+  font-family: var(--v-font-mono);
+  font-size: 0.72rem;
+  font-weight: var(--v-weight-medium);
+  line-height: 1.6;
+
+  background: var(--surface-raised);
+}
+
+.tree {
+  overflow: auto;
+  max-height: 10.5rem;
+  padding-block: var(--v-space-2);
+  border-bottom: var(--v-border-hairline) solid var(--border-default);
+}
+
+.entry {
+  overflow: hidden;
+  display: block;
+
+  width: 100%;
+  padding: 0.06rem var(--v-space-3) 0.06rem var(--v-space-2);
+  border: 0;
+  border-left: 3px solid var(--hue);
+
+  font: inherit;
+  color: var(--text-muted);
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  background: transparent;
+}
+
+.nested {
+  padding-left: calc(var(--v-space-2) + 1.7ch);
+}
+
+.directory {
+  font-weight: var(--v-weight-bold);
+  color: var(--text-primary);
+}
+
+button.entry {
+  cursor: pointer;
+}
+
+button.entry:hover {
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+}
+
+button.entry[aria-pressed='true'] {
+  font-weight: var(--v-weight-bold);
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--hue) 16%, transparent);
+}
+
+.tabs {
+  scrollbar-width: none;
+
+  overflow: auto hidden;
+  display: flex;
+
+  min-width: 0;
+  border-bottom: var(--v-border-hairline) solid var(--border-default);
+
+  background: color-mix(in srgb, var(--text-primary) 4%, transparent);
+}
+
+.tab {
+  cursor: pointer;
+
+  flex: none;
+
+  padding: 0.38rem var(--v-space-3);
+  border: 0;
+  border-right: var(--v-border-hairline) solid var(--border-default);
+
+  font: inherit;
+  color: var(--text-muted);
+  white-space: nowrap;
+
+  background: transparent;
+}
+
+.tab:hover {
+  color: var(--text-primary);
+}
+
+.tab[aria-pressed='true'],
+.title {
+  cursor: default;
+  color: var(--text-primary);
+  background: var(--surface-raised);
+  box-shadow: inset 0 var(--v-border-emphasis) 0 var(--accent);
+}
+
+.code {
+  counter-reset: line;
+
+  overflow: auto;
+
+  max-height: 27rem;
+  margin: 0;
+  padding-block: var(--v-space-2);
+
+  font: inherit;
+  tab-size: 2;
+}
+
+.code code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  font-size: inherit;
+}
+
+.line,
+.pad {
+  display: block;
+  padding-right: var(--v-space-3);
+  white-space: pre;
+}
+
+.line::before {
+  content: counter(line);
+  counter-increment: line;
+
+  display: inline-block;
+
+  width: 2.2ch;
+  margin: 0 1.3ch 0 0.7ch;
+
+  color: var(--text-faint);
+  text-align: right;
+}
+
+.marked {
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+  box-shadow: inset var(--v-border-emphasis) 0 0 var(--accent);
+}
+
+.keyword {
+  color: var(--text-accent);
+}
+
+.string {
+  color: var(--success);
+}
+
+.comment {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.number {
+  color: var(--warning);
+}
+
+.owner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--v-space-1) var(--v-space-4);
+
+  padding: var(--v-space-2) var(--v-space-3);
+  border-top: var(--v-border-hairline) solid var(--border-default);
+
+  font-size: 0.66rem;
+  color: var(--text-muted);
+}
+
+.owner b {
+  color: var(--hue);
+}
+
+@media (--md) {
+  .with-tree {
+    grid-template-columns: 12.2rem minmax(0, 1fr);
+  }
+
+  .tree {
+    grid-row: 1 / span 3;
+    max-height: 27rem;
+    border-right: var(--v-border-hairline) solid var(--border-default);
+    border-bottom: 0;
+  }
+}

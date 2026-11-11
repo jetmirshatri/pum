@@ -1,0 +1,41 @@
+{
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/.server/**/*.ts",
+    "**/.server/**/*.tsx",
+    "**/.client/**/*.ts",
+    "**/.client/**/*.tsx"
+  ],
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2023"],
+    "types": ["node", "vite/client", "@vitejs/plugin-rsc/types"],
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "paths": {
+      "@/components/*": ["./app/components/*"],
+      "@/config/*": ["./app/config/*"],
+      "@/hooks/*": ["./app/hooks/*"],
+      "@/store/*": ["./app/redux/*"],
+      "@/styles/*": ["./app/styles/*"],
+      "@/routes/*": ["./app/routes/*"],
+      "@/utils/*": ["./app/utils/*"],
+      "@/public/*": ["./public/*"]
+    }
+  }
+}

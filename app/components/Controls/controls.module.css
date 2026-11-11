@@ -1,0 +1,123 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--v-space-2);
+
+  margin-top: var(--v-space-4);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  line-height: var(--v-leading-tight);
+}
+
+.compact {
+  gap: var(--v-space-1);
+  margin-top: 0;
+}
+
+.choice,
+.flag,
+.button {
+  cursor: pointer;
+  user-select: none;
+
+  position: relative;
+
+  display: inline-flex;
+  gap: 0.6ch;
+  align-items: center;
+
+  min-height: var(--v-size-icon-lg);
+  padding: var(--v-space-2) var(--v-space-3);
+  border: var(--v-border-frame) solid var(--text-primary);
+
+  font: inherit;
+  color: var(--text-primary);
+
+  background: var(--surface-raised);
+
+  transition:
+    color var(--v-duration-fast) var(--v-ease-out),
+    background-color var(--v-duration-fast) var(--v-ease-out);
+}
+
+/* The controls are compact; their hit area is not. */
+.choice::after,
+.flag::after,
+.button::after {
+  content: '';
+  position: absolute;
+  inset: calc((var(--v-size-icon-lg) - var(--v-size-hit)) / 2) 0;
+}
+
+.compact .choice,
+.button {
+  padding-inline: var(--v-space-2);
+  border-color: var(--border-rule);
+  border-width: var(--v-border-hairline);
+
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.choice:hover,
+.flag:hover,
+.button:hover {
+  background: var(--accent-subtle-bg);
+}
+
+.choice:active,
+.button:active {
+  color: var(--text-accent);
+}
+
+.choice[aria-pressed='true'],
+.button[aria-pressed='true'],
+.flag:has(:checked) {
+  color: var(--surface-page);
+  background: var(--text-primary);
+}
+
+/* A flag is a checkbox drawn as a terminal draws one. */
+.flag::before {
+  content: '[ ]';
+  color: var(--text-muted);
+}
+
+.flag:has(:checked)::before {
+  content: '[x]';
+  color: inherit;
+}
+
+.flag:has(:focus-visible) {
+  outline: var(--v-border-emphasis) solid var(--focus-ring);
+  outline-offset: var(--v-border-emphasis);
+}
+
+/* The two overlays carry their hue. */
+.demo span::after,
+.postgres span::after {
+  content: '';
+
+  display: inline-block;
+
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-left: 0.8ch;
+
+  background: var(--story-demo);
+}
+
+.postgres span::after {
+  background: var(--story-postgres);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .choice,
+  .flag,
+  .button {
+    transition: none;
+  }
+}

@@ -1,0 +1,78 @@
+.page {
+  width: 100%;
+  max-width: var(--v-size-story);
+  margin-inline: auto;
+  padding-inline: var(--v-space-page);
+}
+
+.header {
+  display: grid;
+  gap: var(--v-space-5);
+  padding-block: clamp(var(--v-space-7), 7vw, var(--v-space-8)) var(--v-space-7);
+}
+
+.eyebrow {
+  display: flex;
+  gap: var(--v-space-3);
+  align-items: center;
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  line-height: var(--v-leading-tight);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--v-tracking-label);
+}
+
+.eyebrow::before {
+  content: '';
+
+  flex: none;
+
+  width: var(--v-space-2);
+  height: var(--v-space-2);
+
+  background: var(--accent);
+}
+
+.eyebrow::after {
+  content: '';
+  flex: 1;
+  height: var(--v-border-hairline);
+  background: var(--border-default);
+}
+
+.header h1 {
+  max-width: 14ch;
+
+  font-size: var(--v-text-4xl);
+  font-weight: var(--v-weight-extrabold);
+  line-height: 0.95;
+  letter-spacing: var(--v-tracking-tight);
+}
+
+.description {
+  max-width: var(--v-size-prose);
+  font-size: var(--v-text-lg);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* The frame around the page's live demo. */
+.surface {
+  border: var(--v-border-frame) solid var(--text-primary);
+  background: var(--surface-raised);
+}
+
+@media (--md) {
+  .header {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--v-space-7);
+    align-items: end;
+  }
+
+  .eyebrow {
+    grid-column: 1 / -1;
+  }
+}

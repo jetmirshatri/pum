@@ -1,0 +1,28 @@
+.loading {
+  display: grid;
+  place-items: center;
+  padding: var(--v-space-6);
+}
+
+.spinner {
+  width: var(--v-size-icon-lg);
+  height: var(--v-size-icon-lg);
+  border: var(--v-border-emphasis) solid var(--border-default);
+  border-top-color: var(--accent);
+  border-radius: var(--v-radius-full);
+
+  animation: spin calc(var(--v-duration-slow) * 2) linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* Slower, not stopped: the turning ring is the only sign of progress. */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: calc(var(--v-duration-slow) * 6);
+  }
+}

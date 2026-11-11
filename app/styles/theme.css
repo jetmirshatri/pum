@@ -1,0 +1,155 @@
+/*
+ * The demo's theme: paper, ink and one loud red, in place of the default
+ * theme. It defines every role the default theme defines, so the template's
+ * components work unchanged, then the hues the story gives a meaning, the
+ * terminal colours and the sizes that only the demo pages use.
+ * app/styles/design-system.test.ts and demo-theme.test.ts check its contrast.
+ */
+
+/* How strongly a box of an isometric figure is filled with its colour. It is
+   registered so that a box can animate it when the reader picks something. */
+@property --fill {
+  inherits: false;
+  initial-value: 14%;
+  syntax: '<percentage>';
+}
+
+:root {
+  /* Palette: paper, ink and Vitex red. */
+  --v-paper-0: #fcfbf7;
+  --v-paper-1: #f4f1ea;
+  --v-paper-2: #e9e5da;
+  --v-ink-0: #eceae4;
+  --v-ink-1: #a5a29a;
+  --v-ink-2: #8f8c84;
+  --v-ink-3: #76746b;
+  --v-ink-4: #686459;
+  --v-ink-5: #5c584f;
+  --v-ink-7: #1a1a1f;
+  --v-ink-8: #161512;
+  --v-ink-9: #101012;
+  --v-ink-10: #0a0a0c;
+  --v-red-3: #ff8a84;
+  --v-red-4: #ff5c54;
+  --v-red-5: #f00;
+  --v-red-7: #c40000;
+  --v-red-8: #a30000;
+
+  /* Palette: one hue per meaning, a dark and a light step each. */
+  --v-gray-dark: #6f6b62;
+  --v-gray-light: #9a978f;
+  --v-amber-dark: #a04a08;
+  --v-amber-light: #f2a93b;
+  --v-blue-dark: #1d4ed8;
+  --v-blue-light: #6ea8ff;
+  --v-green-dark: #136f37;
+  --v-green-light: #5bd389;
+  --v-teal-dark: #0f6e67;
+  --v-teal-light: #2dd4bf;
+  --v-pink-dark: #be185d;
+  --v-pink-light: #f472b6;
+  --v-yellow-dark: #8a5300;
+  --v-yellow-light: #f5c542;
+  --v-rose-dark: #9f1239;
+  --v-rose-light: #fda4af;
+
+  /* Surfaces */
+  --surface-page: light-dark(var(--v-paper-1), var(--v-ink-9));
+  --surface-raised: light-dark(var(--v-paper-0), var(--v-ink-7));
+  --surface-sunken: light-dark(var(--v-paper-2), var(--v-ink-10));
+  --surface-overlay: color-mix(in srgb, var(--surface-page) 90%, transparent);
+
+  /* Text */
+  --text-primary: light-dark(var(--v-ink-8), var(--v-ink-0));
+  --text-muted: light-dark(var(--v-ink-5), var(--v-ink-1));
+  --text-faint: light-dark(var(--v-ink-4), var(--v-ink-2));
+  --text-accent: light-dark(var(--v-red-7), var(--v-red-4));
+  --text-on-accent: var(--v-ink-10);
+
+  /* Accent: Vitex red. Text on it is near-black and a hover makes it lighter. */
+  --accent: var(--v-red-5);
+  --accent-hover: var(--v-red-4);
+  --accent-active: var(--v-red-5);
+  --accent-subtle-bg: color-mix(in srgb, var(--accent) 9%, transparent);
+
+  /* Borders: default is a hairline, rule draws a figure or a frame, strong
+     marks a control. */
+  --border-default: color-mix(in srgb, var(--text-primary) 15%, transparent);
+  --border-rule: color-mix(in srgb, var(--text-primary) 55%, transparent);
+  --border-strong: light-dark(var(--v-ink-3), var(--v-ink-3));
+  --border-accent: var(--v-red-5);
+
+  /* Links */
+  --link: var(--text-accent);
+  --link-hover: light-dark(var(--v-red-8), var(--v-red-3));
+
+  /* Status. Danger is carmine, apart from the red accent. */
+  --danger: light-dark(var(--v-rose-dark), var(--v-rose-light));
+  --danger-subtle-bg: color-mix(in srgb, var(--danger) 12%, transparent);
+  --success: light-dark(var(--v-green-dark), var(--v-green-light));
+  --success-subtle-bg: color-mix(in srgb, var(--success) 12%, transparent);
+  --warning: light-dark(var(--v-yellow-dark), var(--v-yellow-light));
+  --warning-subtle-bg: color-mix(in srgb, var(--warning) 12%, transparent);
+
+  /* Focus and selection */
+  --focus-ring: var(--border-accent);
+  --focus-halo: var(--surface-page);
+  --selection-bg: var(--v-red-5);
+  --selection-text: var(--v-ink-10);
+
+  /* Elevation: the demo is flat; a raised panel gets a hard offset edge. */
+  --shadow-raised: var(--v-space-2) var(--v-space-2) 0 var(--border-default);
+  --shadow-overlay: 0 var(--v-space-4) var(--v-space-8)
+    light-dark(
+      color-mix(in srgb, var(--v-ink-8) 14%, transparent),
+      color-mix(in srgb, var(--v-ink-10) 60%, transparent)
+    );
+
+  /* Demo only: the hues of the story. Each means one thing on every page. */
+  --story-base: light-dark(var(--v-gray-dark), var(--v-gray-light));
+  --story-demo: light-dark(var(--v-amber-dark), var(--v-amber-light));
+  --story-postgres: light-dark(var(--v-blue-dark), var(--v-blue-light));
+  --story-yours: light-dark(var(--v-green-dark), var(--v-green-light));
+  --story-managed: var(--v-red-5);
+  --story-server: light-dark(var(--v-teal-dark), var(--v-teal-light));
+  --story-client: light-dark(var(--v-pink-dark), var(--v-pink-light));
+  --story-update: light-dark(var(--v-yellow-dark), var(--v-yellow-light));
+  --story-add: light-dark(var(--v-blue-dark), var(--v-blue-light));
+
+  /* Demo only: terminals stay dark in both themes and use the CLI's colours. */
+  --v-terminal-bg: #0b0c0e;
+  --v-terminal-raised: #15161a;
+  --v-terminal-text: #e8e8ea;
+  --v-terminal-muted: #9396a2;
+  --v-terminal-line: #ffffff24;
+  --v-terminal-green: #4ade80;
+  --v-terminal-cyan: #5fd4e6;
+  --v-terminal-yellow: #f2cc60;
+  --v-terminal-blue: #6ea8ff;
+  --v-terminal-red: #ff6b6b;
+
+  /* Demo only: the X-ray layer, which outlines where each part of a page
+     renders, and the text of its labels. */
+  --xray-server: light-dark(#087565, #2dd4bf);
+  --xray-client: light-dark(#b8246a, #f472b6);
+  --xray-suspense: light-dark(#8f5d00, #fbbf24);
+  --xray-text: light-dark(var(--v-paper-0), var(--v-ink-10));
+
+  /* Demo only: the brand, sizes and layers. */
+  --brand-logo-text: var(--text-primary);
+  --v-size-header: 3.5rem;
+  --v-size-status: 2rem;
+  --v-size-story: 84rem;
+  --v-space-page: clamp(1rem, 4vw, 3rem);
+  --v-size-page-min: calc(100dvh - var(--v-size-header));
+  --v-size-terminal-bar: 2.25rem;
+  --v-border-frame: 1.5px;
+  --v-z-header: 30;
+  --v-z-status: 40;
+
+  /* Demo only: the demo draws with nearly square corners. */
+  --v-radius-sm: 0.125rem;
+  --v-radius-md: 0.1875rem;
+  --v-radius-lg: 0.25rem;
+  --v-radius-xl: 0.25rem;
+}

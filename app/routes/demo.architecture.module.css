@@ -1,0 +1,140 @@
+/* stylelint-disable no-descending-specificity -- Separate CSS Module regions reuse semantic elements. */
+
+.page {
+  width: 100%;
+  max-width: var(--v-size-story);
+  margin-inline: auto;
+  padding-inline: var(--v-space-page);
+}
+
+.hero {
+  display: grid;
+  gap: var(--v-space-7);
+  padding-top: clamp(var(--v-space-7), 7vw, var(--v-space-8));
+}
+
+.hero-copy {
+  display: grid;
+  gap: var(--v-space-5);
+  justify-items: start;
+}
+
+.eyebrow {
+  display: flex;
+  gap: var(--v-space-3);
+  align-items: center;
+  justify-self: stretch;
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  line-height: var(--v-leading-tight);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--v-tracking-label);
+}
+
+.eyebrow::before {
+  content: '';
+
+  flex: none;
+
+  width: var(--v-space-2);
+  height: var(--v-space-2);
+
+  background: var(--accent);
+}
+
+.eyebrow::after {
+  content: '';
+  flex: 1;
+  height: var(--v-border-hairline);
+  background: var(--border-default);
+}
+
+.hero h1 {
+  max-width: 12ch;
+
+  font-size: var(--v-text-4xl);
+  font-weight: var(--v-weight-extrabold);
+  line-height: 0.95;
+  letter-spacing: var(--v-tracking-tight);
+}
+
+.lead {
+  max-width: var(--v-size-prose);
+  font-size: var(--v-text-lg);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.primary-link {
+  display: inline-flex;
+  gap: var(--v-space-4);
+  align-items: center;
+
+  min-height: var(--v-size-hit);
+  padding: var(--v-space-2) var(--v-space-4);
+  border: var(--v-border-frame) solid var(--text-primary);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  color: var(--surface-page);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: var(--v-tracking-label);
+
+  background: var(--text-primary);
+
+  transition:
+    color var(--v-duration-fast) var(--v-ease-out),
+    border-color var(--v-duration-fast) var(--v-ease-out),
+    background-color var(--v-duration-fast) var(--v-ease-out);
+}
+
+.primary-link:hover {
+  border-color: var(--accent-hover);
+  color: var(--text-on-accent);
+  background: var(--accent-hover);
+}
+
+.primary-link:active {
+  border-color: var(--accent-active);
+  color: var(--text-on-accent);
+  background: var(--accent-active);
+}
+
+/* The frame around the scene. */
+.flow-panel {
+  min-width: 0;
+  border: var(--v-border-frame) solid var(--text-primary);
+  background: var(--surface-raised);
+}
+
+@media (--md) {
+  .hero-copy {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: var(--v-space-7);
+    align-items: end;
+  }
+
+  .eyebrow {
+    grid-column: 1 / -1;
+  }
+
+  .hero h1 {
+    grid-row: 2 / span 2;
+  }
+
+  .lead,
+  .primary-link {
+    grid-column: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary-link {
+    transition: none;
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "endOfLine": "lf",
+  "singleQuote": true,
+  "jsxSingleQuote": false,
+  "quoteProps": "as-needed",
+  "trailingComma": "none",
+  "semi": true,
+  "arrowParens": "always",
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "sortPackageJson": false,
+  "sortImports": {
+    "internalPattern": ["@/"],
+    "newlinesBetween": true,
+    "groups": [
+      "side_effect",
+      "value-builtin",
+      "value-external",
+      "value-internal",
+      ["value-parent", "value-sibling", "value-index", "side_effect_style"],
+      "type-builtin",
+      "type-external",
+      "type-internal",
+      ["type-parent", "type-sibling", "type-index"]
+    ]
+  },
+  "ignorePatterns": [
+    "build",
+    "public",
+    ".vitex-manifest.json",
+    "app/env.d.ts",
+    "drizzle/meta",
+    "package-lock.json"
+  ]
+}

@@ -1,0 +1,198 @@
+.header {
+  position: sticky;
+  z-index: var(--v-z-header);
+  top: 0;
+
+  border-bottom: var(--v-border-hairline) solid var(--border-default);
+
+  background: var(--surface-overlay);
+  backdrop-filter: blur(var(--v-space-3));
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--v-space-4);
+  align-items: center;
+
+  max-width: var(--v-size-story);
+  min-height: var(--v-size-header);
+  margin-inline: auto;
+  padding-inline: var(--v-space-page);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: var(--v-size-hit);
+
+  color: var(--brand-logo-text);
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--brand-logo-text);
+}
+
+.brand-logo {
+  display: block;
+  width: 4.75rem;
+  height: auto;
+}
+
+.nav {
+  display: flex;
+  gap: var(--v-space-1) var(--v-space-5);
+  align-items: center;
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--v-tracking-label);
+}
+
+/* The chapters fit beside the brand from a medium screen up; on a small one
+   the status line tells the reader where they are. */
+.chapters {
+  display: none;
+  margin-left: auto;
+}
+
+/* The pages move to a row of their own on a small screen. */
+.pages {
+  overflow-x: auto;
+  order: 3;
+  width: 100%;
+  border-top: var(--v-border-hairline) solid var(--border-default);
+}
+
+.nav-link {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+
+  min-height: var(--v-size-hit);
+  border-block: var(--v-border-emphasis) solid transparent;
+
+  color: var(--text-muted);
+  text-decoration: none;
+
+  transition:
+    color var(--v-duration-fast) var(--v-ease-out),
+    border-color var(--v-duration-fast) var(--v-ease-out);
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+}
+
+.nav-link:active {
+  color: var(--text-accent);
+}
+
+.nav-link-active {
+  border-bottom-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: var(--v-size-icon-lg);
+  padding-inline: var(--v-space-3);
+
+  color: var(--surface-page);
+  text-decoration: none;
+
+  background: var(--text-primary);
+
+  transition:
+    color var(--v-duration-fast) var(--v-ease-out),
+    background-color var(--v-duration-fast) var(--v-ease-out);
+}
+
+.cta:hover,
+.cta-active {
+  color: var(--text-on-accent);
+  background: var(--accent-hover);
+}
+
+.cta:active {
+  background: var(--accent);
+}
+
+.tools {
+  display: flex;
+  gap: var(--v-space-2);
+  align-items: center;
+  margin-left: auto;
+}
+
+.repository {
+  display: none;
+  align-items: center;
+
+  min-height: var(--v-size-hit);
+  padding-inline: var(--v-space-2);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-semibold);
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: var(--v-tracking-label);
+}
+
+.repository:hover {
+  color: var(--text-primary);
+}
+
+.progress {
+  position: absolute;
+  bottom: calc(var(--v-border-hairline) * -1);
+  left: 0;
+  transform-origin: left;
+
+  width: 100%;
+  height: var(--v-border-emphasis);
+
+  background: var(--accent);
+}
+
+@media (--md) {
+  .chapters {
+    display: flex;
+  }
+
+  .chapters + .tools {
+    margin-left: 0;
+  }
+
+  .pages {
+    overflow-x: visible;
+    order: 0;
+
+    width: auto;
+    margin-left: auto;
+    border-top: 0;
+  }
+
+  .pages + .tools {
+    margin-left: 0;
+  }
+
+  .repository {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-link,
+  .cta {
+    transition: none;
+  }
+}

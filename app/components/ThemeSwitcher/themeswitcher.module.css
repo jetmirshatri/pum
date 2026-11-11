@@ -1,0 +1,123 @@
+/* The theme switch of the demo: a square switch framed in ink, with an ink
+   knob that carries the sun or the moon. */
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: var(--v-size-hit);
+  min-height: var(--v-size-hit);
+}
+
+.label {
+  cursor: pointer;
+
+  position: relative;
+
+  display: block;
+
+  width: calc(var(--v-space-7) + var(--v-space-1));
+  height: calc(var(--v-space-6) - var(--v-space-1));
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: calc(var(--v-space-2) * -1) calc(var(--v-space-1) * -1);
+  }
+}
+
+.track {
+  position: absolute;
+  inset: 0;
+
+  border: var(--v-border-frame) solid var(--text-primary);
+
+  background: var(--surface-raised);
+
+  transition: background-color var(--v-duration-fast) var(--v-ease-out);
+}
+
+.label:hover .track {
+  background: var(--accent-subtle-bg);
+}
+
+.thumb {
+  position: absolute;
+  z-index: var(--v-z-raised);
+  top: 50%;
+  left: calc(var(--v-space-1) - var(--v-border-frame));
+  transform: translateY(-50%);
+
+  display: inline-grid;
+  place-items: center;
+
+  width: calc(var(--v-space-6) - var(--v-space-3));
+  height: calc(var(--v-space-6) - var(--v-space-3));
+
+  color: var(--surface-page);
+
+  background: var(--text-primary);
+
+  transition: transform var(--v-duration-base) var(--v-ease-out);
+}
+
+.label:active .thumb {
+  background: var(--accent-active);
+}
+
+.sun,
+.moon {
+  position: absolute;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  line-height: 0;
+
+  transition: opacity var(--v-duration-fast) var(--v-ease-standard);
+
+  & svg {
+    display: block;
+
+    width: var(--v-size-icon-sm);
+    height: var(--v-size-icon-sm);
+
+    fill: none;
+    stroke: currentcolor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: var(--v-border-emphasis);
+  }
+}
+
+.moon {
+  opacity: 0;
+}
+
+.label:has(input:checked) .thumb {
+  transform: translate(var(--v-space-5), -50%);
+}
+
+.label:has(input:checked) .sun {
+  opacity: 0;
+}
+
+.label:has(input:checked) .moon {
+  opacity: 1;
+}
+
+.label:has(input:focus-visible) .track {
+  outline: var(--v-border-emphasis) solid var(--focus-ring);
+  outline-offset: var(--v-border-emphasis);
+  box-shadow: 0 0 0 var(--v-space-1) var(--focus-halo);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .thumb,
+  .sun,
+  .moon {
+    transition: none;
+  }
+}

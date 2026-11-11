@@ -1,0 +1,325 @@
+/*
+ * The isometric kit: a scene, layers in it, boxes with two walls, bricks, tags
+ * that face the reader and plumb lines. Every position is a custom property in
+ * grid cells (a plate is 12 cells wide) or in units of height, so a figure can
+ * move its parts with calc() on the scroll progress of its chapter.
+ */
+.scene {
+  --cell: calc(var(--plate) / 12);
+  --unit: calc(var(--plate) / 280);
+
+  position: absolute;
+  top: var(--cy, 56%);
+  left: var(--cx, 42%);
+  transform-style: preserve-3d;
+  transform: rotateX(56deg) rotateZ(calc(-45deg + var(--turn, 0deg)));
+
+  width: 0;
+  height: 0;
+}
+
+.layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--lz, 0) * var(--unit)));
+
+  width: 0;
+  height: 0;
+}
+
+/* --o is how present a box is (0 to 1). It fades the colours, not the
+   element: opacity would flatten the 3D scene. */
+.box {
+  --presence: calc(var(--o, 1) * 100%);
+  --tone: var(--c, var(--story-base));
+
+  position: absolute;
+  top: calc(var(--y, -6) * var(--cell));
+  left: calc(var(--x, -6) * var(--cell));
+  transform-style: preserve-3d;
+  transform: translate3d(
+    calc(var(--dx, 0) * var(--cell)),
+    calc(var(--dy, 0) * var(--cell)),
+    calc(var(--z, 14) * var(--unit))
+  );
+
+  width: calc(var(--w, 12) * var(--cell));
+  height: calc(var(--h, 12) * var(--cell));
+  border: var(--v-border-frame) solid
+    color-mix(in srgb, var(--tone) var(--presence), transparent);
+
+  background-color: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--tone) var(--fill), var(--surface-raised))
+      var(--presence),
+    transparent
+  );
+
+  transition: --fill var(--v-duration-slow) var(--v-ease-out);
+}
+
+/* The front wall and the left wall. */
+.box::before,
+.box::after {
+  content: '';
+  position: absolute;
+}
+
+.box::before {
+  top: calc(100% + var(--v-border-frame));
+  right: calc(var(--v-border-frame) * -1);
+  left: calc(var(--v-border-frame) * -1);
+  transform-origin: top;
+  transform: rotateX(-90deg);
+
+  height: calc(var(--thick, 14) * var(--unit));
+
+  background: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--tone) 54%, var(--surface-raised)) var(--presence),
+    transparent
+  );
+}
+
+.box::after {
+  top: calc(var(--v-border-frame) * -1);
+  right: calc(100% + var(--v-border-frame));
+  bottom: calc(var(--v-border-frame) * -1);
+  transform-origin: right;
+  transform: rotateY(-90deg);
+
+  width: calc(var(--thick, 14) * var(--unit));
+
+  background: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--tone) 30%, var(--surface-raised)) var(--presence),
+    transparent
+  );
+}
+
+/* A plate with a drawn grid. */
+.grid {
+  --grid-line: color-mix(
+    in srgb,
+    var(--border-default) var(--presence),
+    transparent
+  );
+
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: calc(var(--cell) * 2) calc(var(--cell) * 2);
+}
+
+/* A small box that sits on a plate. */
+.brick {
+  --thick: 6;
+  --z: 20.5;
+  --fill: 38%;
+}
+
+.dashed {
+  border-style: dashed;
+}
+
+/* Text that lies on a box. */
+.lying {
+  position: absolute;
+  bottom: 6%;
+  left: 7%;
+
+  font-family: var(--v-font-mono);
+  font-size: calc(var(--cell) * 0.72);
+  font-weight: var(--v-weight-extrabold);
+  line-height: var(--v-leading-tight);
+  color: color-mix(in srgb, var(--tone) var(--presence), transparent);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.brick .lying {
+  font-size: calc(var(--cell) * 0.5);
+}
+
+.lying-logo {
+  position: absolute;
+  bottom: 6%;
+  left: 7%;
+
+  width: 52%;
+  height: auto;
+
+  color: color-mix(in srgb, var(--text-primary) var(--presence), transparent);
+}
+
+/* A label that stands up and faces the reader, with a leader line to the
+   corner of its box. --to fades it. */
+.tag {
+  --dot: var(--tc, var(--tone));
+
+  pointer-events: none;
+
+  position: absolute;
+  top: 100%;
+  left: 100%;
+  transform-origin: 0 0;
+  transform: rotateZ(calc(45deg - var(--turn, 0deg))) rotateX(-56deg)
+    translate3d(26px, -50%, 400px);
+
+  width: max-content;
+  max-width: var(--tag-width);
+  padding: 0.12rem 0.35rem;
+
+  font-family: var(--v-font-mono);
+  font-size: 0.7rem;
+  font-weight: var(--v-weight-medium);
+  line-height: 1.35;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+
+  opacity: calc(var(--to, 1) * var(--o, 1));
+  background: color-mix(in srgb, var(--surface-page) 88%, transparent);
+}
+
+.tag b {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: var(--v-weight-bold);
+  color: var(--text-primary);
+}
+
+.tag b i {
+  margin-right: 0.4em;
+  font-style: normal;
+  color: var(--text-accent);
+}
+
+.tag small {
+  display: none;
+  font-size: 0.68rem;
+}
+
+.tag::before {
+  content: '';
+
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 3px);
+
+  width: 17px;
+  height: 1px;
+
+  background: var(--border-rule);
+}
+
+.tag::after {
+  content: '';
+
+  position: absolute;
+  top: calc(50% - 3px);
+  right: calc(100% + 19px);
+
+  width: 6px;
+  height: 6px;
+  border-radius: var(--v-radius-full);
+
+  background: var(--dot);
+}
+
+.tag-left {
+  top: 0;
+  left: 0;
+  transform: rotateZ(calc(45deg - var(--turn, 0deg))) rotateX(-56deg)
+    translate3d(calc(-100% - 26px), -50%, 400px);
+
+  display: none;
+
+  text-align: right;
+}
+
+.tag-left::before {
+  right: auto;
+  left: calc(100% + 3px);
+}
+
+.tag-left::after {
+  right: auto;
+  left: calc(100% + 19px);
+}
+
+.tag-front,
+.tag-up {
+  left: 0;
+  transform: rotateZ(calc(45deg - var(--turn, 0deg))) rotateX(-56deg)
+    translate3d(-50%, 26px, 400px);
+  text-align: center;
+}
+
+.tag-up {
+  top: 0;
+  left: 100%;
+  transform: rotateZ(calc(45deg - var(--turn, 0deg))) rotateX(-56deg)
+    translate3d(-50%, calc(-100% - 26px), 400px);
+}
+
+.tag-front::before,
+.tag-up::before {
+  inset: auto auto calc(100% + 3px) 50%;
+  width: 1px;
+  height: 17px;
+}
+
+.tag-front::after,
+.tag-up::after {
+  inset: auto auto calc(100% + 19px) calc(50% - 3px);
+}
+
+.tag-up::before {
+  top: calc(100% + 3px);
+  bottom: auto;
+}
+
+.tag-up::after {
+  top: calc(100% + 19px);
+  bottom: auto;
+}
+
+/* A dashed vertical line between two heights. */
+.plumb {
+  position: absolute;
+  top: calc(var(--y) * var(--cell));
+  left: calc(var(--x) * var(--cell));
+  transform-origin: top;
+  transform: translateZ(calc(var(--z, 0) * var(--unit))) rotateX(-90deg);
+
+  width: 0;
+  height: calc(var(--len) * var(--unit));
+  border-left: 1px dashed var(--border-rule);
+
+  opacity: var(--to, 1);
+}
+
+@media (--md) {
+  .tag {
+    overflow-wrap: normal;
+  }
+
+  .tag-left {
+    display: block;
+  }
+}
+
+/* The notes under a label need a wide figure. */
+@media (--lg) {
+  .tag small {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .box {
+    transition: none;
+  }
+}

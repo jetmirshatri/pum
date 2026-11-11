@@ -1,0 +1,162 @@
+.terminal {
+  margin-top: var(--v-space-4);
+  border: var(--v-border-hairline) solid var(--border-rule);
+
+  font-family: var(--v-font-mono);
+  font-size: clamp(0.6rem, 2.5vw, 0.74rem);
+  font-weight: var(--v-weight-medium);
+  line-height: 1.55;
+  color: var(--v-terminal-text);
+
+  background: var(--v-terminal-bg);
+}
+
+.bar {
+  display: flex;
+  gap: var(--v-space-3);
+  align-items: center;
+
+  min-height: var(--v-size-terminal-bar);
+  padding-inline: var(--v-space-3);
+  border-bottom: var(--v-border-hairline) solid var(--v-terminal-line);
+
+  font-size: 0.64rem;
+  font-weight: var(--v-weight-bold);
+  color: var(--v-terminal-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.bar b {
+  color: var(--v-terminal-text);
+}
+
+.button {
+  cursor: pointer;
+
+  position: relative;
+
+  margin-left: auto;
+  padding: 0.2rem 0.55rem;
+  border: var(--v-border-hairline) solid var(--v-terminal-line);
+
+  font: inherit;
+  color: var(--v-terminal-text);
+  text-transform: inherit;
+  letter-spacing: inherit;
+
+  background: transparent;
+
+  transition: border-color var(--v-duration-fast) var(--v-ease-out);
+}
+
+/* A small button with a full-size hit area. */
+.button::after {
+  content: '';
+  position: absolute;
+  inset: -0.6rem;
+}
+
+.button:hover {
+  border-color: var(--v-terminal-text);
+}
+
+.button:active {
+  color: var(--v-terminal-bg);
+  background: var(--v-terminal-text);
+}
+
+.screen {
+  min-height: calc(var(--rows, 0) * 1.55em + 1.55rem);
+  margin: 0;
+  padding: 0.7rem 0.9rem 0.85rem;
+
+  font: inherit;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.row {
+  display: block;
+  min-height: 1.55em;
+}
+
+.art {
+  overflow: hidden;
+  min-height: 0;
+  line-height: 1.24;
+  white-space: pre;
+}
+
+/* With the scroll: a line appears when the run reaches it. --n is the number
+   of lines, --i the place of this one. */
+.scrolled .row {
+  opacity: clamp(0, calc((var(--q) * (var(--n) + 2) - var(--i)) * 3), 1);
+}
+
+.cursor {
+  display: inline-block;
+
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 0.1em;
+
+  vertical-align: -0.18em;
+
+  background: var(--accent);
+
+  animation: blink 1.1s steps(2, jump-none) infinite;
+}
+
+.green {
+  color: var(--v-terminal-green);
+}
+
+.cyan {
+  color: var(--v-terminal-cyan);
+}
+
+.yellow {
+  color: var(--v-terminal-yellow);
+}
+
+.blue {
+  color: var(--v-terminal-blue);
+}
+
+.red {
+  color: var(--v-terminal-red);
+}
+
+.muted {
+  color: var(--v-terminal-muted);
+}
+
+.bold {
+  font-weight: var(--v-weight-bold);
+}
+
+.result {
+  display: inline-block;
+
+  margin-top: 0.3em;
+  padding: 0.5em 1.4em 0.6em;
+  border: var(--v-border-hairline) solid var(--v-terminal-cyan);
+  border-radius: 0.7em;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+
+  .cursor {
+    animation: none;
+  }
+}

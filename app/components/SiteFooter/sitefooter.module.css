@@ -1,0 +1,86 @@
+/* The footer closes the page above the status line, which is fixed to the
+   bottom of the window. */
+.shell {
+  margin-top: var(--v-space-8);
+  padding-bottom: var(--v-size-status);
+  border-top: var(--v-border-hairline) solid var(--border-rule);
+}
+
+.footer {
+  display: grid;
+  gap: var(--v-space-7);
+
+  max-width: var(--v-size-story);
+  margin-inline: auto;
+  padding: var(--v-space-7) var(--v-space-page);
+}
+
+.pitch {
+  max-width: var(--v-size-compact);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  color: var(--brand-logo-text);
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--brand-logo-text);
+}
+
+.brand-logo {
+  display: block;
+  width: 5.5rem;
+  height: auto;
+}
+
+.pitch p {
+  margin-top: var(--v-space-4);
+  color: var(--text-muted);
+}
+
+.links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--v-space-6);
+}
+
+.links div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v-space-2);
+}
+
+.links p {
+  margin-bottom: var(--v-space-2);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-semibold);
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: var(--v-tracking-label);
+}
+
+.links a {
+  width: fit-content;
+  font-size: var(--v-text-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.links a:hover {
+  color: var(--text-accent);
+}
+
+@media (--md) {
+  .footer {
+    grid-template-columns: minmax(18rem, 1fr) 1.4fr;
+  }
+
+  .links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

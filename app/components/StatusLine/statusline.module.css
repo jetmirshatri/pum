@@ -1,0 +1,70 @@
+/* A terminal's status line: dark in both themes, fixed to the bottom. */
+.line {
+  position: fixed;
+  z-index: var(--v-z-status);
+  inset: auto 0 0;
+
+  overflow: hidden;
+  display: flex;
+  gap: var(--v-space-4);
+  align-items: center;
+
+  height: var(--v-size-status);
+  padding-right: var(--v-space-4);
+  border-top: var(--v-border-hairline) solid var(--v-terminal-line);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-medium);
+  line-height: var(--v-leading-tight);
+  color: var(--v-terminal-text);
+  white-space: pre;
+
+  background: var(--v-terminal-bg);
+}
+
+.brand {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+
+  padding-inline: var(--v-space-3);
+
+  color: var(--text-on-accent);
+
+  background: var(--accent);
+}
+
+.bar {
+  color: var(--v-terminal-green);
+}
+
+.command,
+.keys {
+  display: none;
+  color: var(--v-terminal-muted);
+}
+
+.keys {
+  margin-left: auto;
+}
+
+.keys kbd {
+  margin-inline: 0.1em;
+  padding: 0.1em 0.4em;
+  border: var(--v-border-hairline) solid var(--v-terminal-line);
+  color: var(--v-terminal-text);
+}
+
+@media (--md) {
+  .command {
+    display: inline;
+  }
+}
+
+/* The keys are for a keyboard: a wide screen with a pointer that hovers. */
+@media (--lg) and (hover: hover) {
+  .keys {
+    display: inline;
+  }
+}

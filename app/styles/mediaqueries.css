@@ -1,0 +1,15 @@
+/*
+ * Breakpoints, in em so they follow the reader's font size (1em is 16px by
+ * default). Style the small screen first, then add from a width up:
+ * @media (--md) { … }. The --below-* queries serve the few rules that apply
+ * only under a width. Keep the <source media> queries in
+ * app/components/Image/Image.tsx in step with these.
+ */
+@custom-media --xs (width >= 30em); /* 480px */
+@custom-media --sm (width >= 37.5em); /* 600px */
+@custom-media --md (width >= 56.25em); /* 900px */
+@custom-media --lg (width >= 75em); /* 1200px */
+@custom-media --below-xs (width < 30em);
+@custom-media --below-sm (width < 37.5em);
+@custom-media --below-md (width < 56.25em);
+@custom-media --below-lg (width < 75em);

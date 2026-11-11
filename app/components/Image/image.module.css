@@ -1,0 +1,40 @@
+.mediabox {
+  position: relative;
+
+  overflow: hidden;
+  display: block;
+
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  border-radius: inherit;
+}
+
+.mediabox-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: filter var(--v-duration-base) var(--v-ease-standard);
+}
+
+.simple {
+  transition: filter var(--v-duration-base) var(--v-ease-standard);
+}
+
+.blur {
+  filter: blur(var(--v-blur-image));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mediabox-img,
+  .simple {
+    transition: none;
+  }
+}

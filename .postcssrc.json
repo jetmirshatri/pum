@@ -1,0 +1,17 @@
+{
+  "plugins": {
+    "@csstools/postcss-global-data": {
+      "files": ["app/styles/mediaqueries.css"]
+    },
+    "postcss-preset-env": {
+      "preserve": false,
+      "features": {
+        "custom-media-queries": true,
+        "custom-properties": false,
+        "light-dark-function": false,
+        "nesting-rules": true
+      },
+      "autoprefixer": { "flexbox": false, "grid": false }
+    }
+  }
+}

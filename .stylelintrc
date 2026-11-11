@@ -1,0 +1,53 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-clean-order/error"
+  ],
+  "ignoreFiles": ["build/**/*"],
+  "rules": {
+    "declaration-no-important": true,
+    "font-family-name-quotes": "always-where-recommended",
+    "font-weight-notation": "numeric",
+    "function-url-quotes": "always",
+    "selector-attribute-quotes": "always",
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": ["custom-media", "layer", "container"]
+      }
+    ],
+    "value-keyword-case": "lower",
+    "media-feature-range-notation": "context",
+    "media-query-no-invalid": true,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      { "ignorePseudoClasses": ["global", "local"] }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["app/**/*.module.css"],
+      "rules": {
+        "color-named": "never",
+        "color-no-hex": true,
+        "function-disallowed-list": [
+          "rgb",
+          "rgba",
+          "hsl",
+          "hsla",
+          "hwb",
+          "lab",
+          "lch",
+          "oklab",
+          "oklch",
+          "color",
+          "light-dark"
+        ],
+        "media-feature-name-disallowed-list": ["/width/", "/height/"],
+        "declaration-property-value-allowed-list": {
+          "z-index": ["/^var\\(--v-z-[a-z]+\\)$/"]
+        }
+      }
+    }
+  ]
+}

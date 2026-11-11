@@ -1,0 +1,213 @@
+/*
+ * The X-ray layer. While <html data-xray> is set, every element with a
+ * data-xray-kind attribute gets a dashed outline and a label in the colour of
+ * its kind. The attributes are global, so any component can mark a region;
+ * the header loads this module on every page.
+ */
+:global([data-xray-kind='server']),
+.key [data-xray-swatch='server'] {
+  --xray: var(--xray-server);
+}
+
+:global([data-xray-kind='client']),
+.key [data-xray-swatch='client'] {
+  --xray: var(--xray-client);
+}
+
+:global([data-xray-kind='suspense']),
+.key [data-xray-swatch='suspense'] {
+  --xray: var(--xray-suspense);
+}
+
+/* Without specificity, so a region keeps its own position. */
+:global(:where(html[data-xray] [data-xray-kind])) {
+  position: relative;
+}
+
+:global(html[data-xray] [data-xray-kind]) {
+  outline: var(--v-border-emphasis) dashed var(--xray);
+  outline-offset: calc(var(--v-border-emphasis) * -1);
+}
+
+/* The label sits inside the region, so a parent that clips cannot hide it. */
+:global(html[data-xray] [data-xray-kind])::before {
+  content: attr(data-xray-label);
+
+  position: absolute;
+  z-index: var(--v-z-floating);
+  top: 0;
+  left: 0;
+
+  overflow: hidden;
+
+  max-width: 100%;
+  padding: var(--v-space-1) var(--v-space-2);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  line-height: 1.3;
+  color: var(--xray-text);
+  text-align: left;
+  text-overflow: ellipsis;
+  text-transform: none;
+  letter-spacing: normal;
+  white-space: nowrap;
+
+  background: var(--xray);
+}
+
+/* The switch in the header: a mono label framed in ink, inverted while the
+   layer is on. */
+.toggle {
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+
+  min-height: var(--v-size-hit);
+  padding: 0;
+  border: 0;
+
+  font: inherit;
+  color: var(--text-primary);
+
+  background: none;
+}
+
+.pill {
+  display: inline-flex;
+  gap: var(--v-space-2);
+  align-items: center;
+
+  height: calc(var(--v-space-6) - var(--v-space-1));
+  padding: 0 var(--v-space-3);
+  border: var(--v-border-frame) solid var(--text-primary);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  line-height: var(--v-leading-tight);
+  text-transform: uppercase;
+  letter-spacing: var(--v-tracking-label);
+  white-space: nowrap;
+
+  background: var(--surface-raised);
+
+  transition:
+    color var(--v-duration-fast) var(--v-ease-out),
+    background-color var(--v-duration-fast) var(--v-ease-out);
+}
+
+/* The mark: a dashed outline, as the layer draws them. */
+.pill::before {
+  content: '';
+  width: var(--v-space-2);
+  height: var(--v-space-2);
+  border: var(--v-border-hairline) dashed currentcolor;
+}
+
+.toggle:hover .pill {
+  background: var(--accent-subtle-bg);
+}
+
+.toggle:active .pill {
+  color: var(--text-accent);
+}
+
+.toggle[aria-pressed='true'] .pill {
+  color: var(--surface-page);
+  background: var(--text-primary);
+}
+
+.toggle[aria-pressed='true'] .pill::before {
+  border-style: solid;
+  background: currentcolor;
+}
+
+.toggle:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.toggle:focus-visible .pill {
+  outline: var(--v-border-emphasis) solid var(--focus-ring);
+  outline-offset: var(--v-border-emphasis);
+  box-shadow: 0 0 0 var(--v-space-1) var(--focus-halo);
+}
+
+/* The key: a bar that floats above the status line. */
+.key {
+  position: fixed;
+  z-index: var(--v-z-overlay);
+  bottom: calc(var(--v-size-status) + var(--v-space-3));
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--v-space-1) var(--v-space-4);
+  align-items: center;
+  justify-content: center;
+
+  width: max-content;
+  max-width: calc(100% - var(--v-space-6));
+  padding: var(--v-space-1) var(--v-space-1) var(--v-space-1) var(--v-space-4);
+  border: var(--v-border-frame) solid var(--text-primary);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  color: var(--text-primary);
+
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-raised);
+
+  & span {
+    display: inline-flex;
+    gap: var(--v-space-2);
+    align-items: center;
+  }
+
+  & span::before {
+    content: '';
+    width: var(--v-space-3);
+    height: var(--v-space-3);
+    border: var(--v-border-emphasis) dashed var(--xray);
+  }
+
+  & button {
+    cursor: pointer;
+
+    min-height: var(--v-size-hit);
+    padding: 0 var(--v-space-3);
+    border: 0;
+    border-left: var(--v-border-hairline) solid var(--border-default);
+
+    font: inherit;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: var(--v-tracking-label);
+
+    background: transparent;
+
+    transition:
+      color var(--v-duration-fast) var(--v-ease-out),
+      background-color var(--v-duration-fast) var(--v-ease-out);
+  }
+
+  & button:hover {
+    background: var(--accent-subtle-bg);
+  }
+
+  & button:active {
+    color: var(--text-accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill,
+  .key button {
+    transition: none;
+  }
+}

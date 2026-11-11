@@ -1,0 +1,319 @@
+/*
+ * A chapter of the story: its text in one column and beside it (above it on a
+ * small screen) a sticky figure, which moves with --p, the scroll progress of
+ * the chapter from 0 to 1.
+ */
+.chapter {
+  scroll-margin-top: calc(var(--v-size-header) - var(--v-border-hairline));
+  position: relative;
+  border-top: var(--v-border-hairline) solid var(--border-rule);
+}
+
+.hero {
+  border-top: 0;
+}
+
+.head {
+  padding-top: var(--v-space-8);
+}
+
+.figure {
+  --plate: 9.375rem;
+  --tag-width: 7.2rem;
+  --mark: linear-gradient(var(--border-rule), var(--border-rule));
+
+  position: sticky;
+  z-index: var(--v-z-raised);
+  top: var(--v-size-header);
+
+  overflow: hidden;
+
+  height: 46svh;
+  margin: var(--v-space-5) calc(var(--v-space-page) * -1) 0;
+  border-block: var(--v-border-hairline) solid var(--border-default);
+
+  /* Crop marks in the four corners. */
+  background:
+    var(--mark) 3% 5vh / 14px 1px no-repeat,
+    var(--mark) 3% 5vh / 1px 14px no-repeat,
+    var(--mark) 97% 5vh / 14px 1px no-repeat,
+    var(--mark) 97% 5vh / 1px 14px no-repeat,
+    var(--mark) 3% calc(100% - 5vh) / 14px 1px no-repeat,
+    var(--mark) 3% calc(100% - 5vh) / 1px 14px no-repeat,
+    var(--mark) 97% calc(100% - 5vh) / 14px 1px no-repeat,
+    var(--mark) 97% calc(100% - 5vh) / 1px 14px no-repeat,
+    var(--surface-page);
+}
+
+.caption {
+  position: absolute;
+  right: var(--v-space-4);
+  bottom: var(--v-space-2);
+  left: var(--v-space-4);
+
+  display: flex;
+  gap: var(--v-space-4);
+  justify-content: space-between;
+
+  font-family: var(--v-font-mono);
+  font-size: 0.56rem;
+  font-weight: var(--v-weight-semibold);
+  line-height: var(--v-leading-tight);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.caption output {
+  color: var(--text-accent);
+}
+
+.beats {
+  padding-bottom: 20svh;
+}
+
+.beat {
+  margin-top: 24svh;
+}
+
+.beat-first {
+  margin-top: var(--v-space-6);
+}
+
+.kicker {
+  display: flex;
+  gap: var(--v-space-3);
+  align-items: center;
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  line-height: var(--v-leading-tight);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.kicker b {
+  color: var(--text-accent);
+}
+
+.kicker::after {
+  content: '';
+  flex: 1;
+  height: var(--v-border-hairline);
+  background: var(--border-default);
+}
+
+.title,
+.hero-title {
+  margin-block: var(--v-space-4);
+
+  font-size: var(--v-text-3xl);
+  font-weight: var(--v-weight-extrabold);
+  line-height: var(--v-leading-tight);
+  letter-spacing: -0.04em;
+}
+
+.hero-title {
+  margin-top: var(--v-space-5);
+  font-size: var(--v-text-4xl);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+.hero-title em {
+  font-style: normal;
+  color: var(--text-accent);
+}
+
+.lede {
+  max-width: var(--v-size-prose);
+  font-size: var(--v-text-lg);
+  line-height: 1.55;
+}
+
+.beat h3 {
+  font-size: var(--v-text-lg);
+  font-weight: var(--v-weight-bold);
+  letter-spacing: var(--v-tracking-heading);
+}
+
+.beat p {
+  margin-top: var(--v-space-2);
+  color: var(--text-muted);
+}
+
+.beat p b,
+.beat p strong {
+  color: var(--text-primary);
+}
+
+/* Inline code in the text column. :where keeps it weaker than the code of a
+   panel, such as an editor's. */
+:where(.head, .beat) :not(pre) > code {
+  padding: 0.06em 0.3em;
+  border: var(--v-border-hairline) solid var(--border-default);
+  border-radius: var(--v-radius-sm);
+
+  font-size: 0.86em;
+  overflow-wrap: anywhere;
+
+  background: var(--surface-raised);
+}
+
+/* A table of terms, framed like the title block of a drawing. */
+.spec {
+  display: grid;
+  grid-template-columns: auto 1fr;
+
+  margin-top: var(--v-space-4);
+  border: var(--v-border-frame) solid var(--text-primary);
+
+  font-size: var(--v-text-sm);
+}
+
+.spec dt,
+.spec dd {
+  padding: var(--v-space-2) var(--v-space-3);
+  border-bottom: var(--v-border-hairline) solid var(--border-default);
+}
+
+.spec dt {
+  border-right: var(--v-border-hairline) solid var(--border-default);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  line-height: 1.9;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.spec dd {
+  color: var(--text-primary);
+}
+
+.spec dt:last-of-type,
+.spec dd:last-of-type {
+  border-bottom: 0;
+}
+
+.spec kbd {
+  display: inline-block;
+
+  min-width: 1.5em;
+  padding: 0.05em 0.35em;
+  border: var(--v-border-hairline) solid var(--border-rule);
+  border-bottom-width: var(--v-border-emphasis);
+  border-radius: var(--v-radius-sm);
+
+  font-size: 0.78em;
+  font-weight: var(--v-weight-semibold);
+  text-align: center;
+}
+
+/* The dimension line beside a figure, with its text along it. */
+.dim {
+  position: absolute;
+  top: calc(52% - 11.875rem);
+  left: 5.5%;
+
+  display: none;
+
+  width: 0.75rem;
+  height: 23.75rem;
+
+  fill: none;
+  stroke: var(--border-rule);
+  stroke-width: 1;
+}
+
+.dim-text {
+  position: absolute;
+  top: 52%;
+  left: calc(5.5% + 1px);
+  transform: rotate(180deg) translateY(50%);
+
+  display: none;
+
+  writing-mode: vertical-rl;
+  font-family: var(--v-font-mono);
+  font-size: 0.64rem;
+  font-weight: var(--v-weight-semibold);
+  line-height: var(--v-leading-tight);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+
+@media (--md) {
+  .chapter {
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 7fr);
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(1.5rem, 4vw, 4rem);
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .head {
+    grid-column: 1;
+    padding-top: 17vh;
+  }
+
+  .hero .head {
+    padding-top: clamp(2rem, 9vh, 6rem);
+  }
+
+  .figure {
+    --plate: clamp(12.5rem, 19.4vw, 17.5rem);
+    --tag-width: 7.4rem;
+
+    grid-column: 2;
+    grid-row: 1 / span 2;
+
+    height: calc(100vh - var(--v-size-header) - var(--v-size-status));
+    margin: 0;
+    border: 0;
+  }
+
+  .caption {
+    right: calc(3% + 1.4rem);
+    bottom: calc(5vh - 0.25rem);
+    left: calc(3% + 1.4rem);
+    font-size: 0.66rem;
+  }
+
+  .beats {
+    grid-column: 1;
+    padding-bottom: 26vh;
+  }
+
+  .beat {
+    margin-top: 34vh;
+  }
+
+  .beat-first {
+    margin-top: var(--v-space-7);
+  }
+
+  .hero .beat {
+    margin-top: 30vh;
+  }
+
+  .dim,
+  .dim-text {
+    display: block;
+  }
+}
+
+@media (--lg) {
+  .figure {
+    --tag-width: 9.2rem;
+  }
+}

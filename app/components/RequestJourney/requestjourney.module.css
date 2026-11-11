@@ -1,0 +1,473 @@
+/* stylelint-disable no-descending-specificity -- Semantic elements are scoped to separate regions. */
+
+/* A chapter of the architecture page: its heading on paper, its figure in a
+   frame. Teal is the server and pink the browser, as on every page; red marks
+   where the request is. */
+.section {
+  scroll-margin-top: calc(var(--v-size-header) + var(--v-space-5));
+  margin-top: var(--v-space-8);
+  border-top: var(--v-border-hairline) solid var(--border-rule);
+}
+
+.heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--v-space-5) var(--v-space-6);
+  align-items: flex-end;
+  justify-content: space-between;
+
+  padding-block: var(--v-space-7) var(--v-space-6);
+}
+
+.eyebrow {
+  display: flex;
+  gap: var(--v-space-3);
+  align-items: center;
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  line-height: var(--v-leading-tight);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--v-tracking-label);
+}
+
+.eyebrow::before {
+  content: '';
+
+  flex: none;
+
+  width: var(--v-space-2);
+  height: var(--v-space-2);
+
+  background: var(--accent);
+}
+
+.heading h2 {
+  margin-top: var(--v-space-4);
+
+  font-size: var(--v-text-3xl);
+  font-weight: var(--v-weight-extrabold);
+  line-height: var(--v-leading-tight);
+  letter-spacing: var(--v-tracking-tight);
+}
+
+.heading p:last-child {
+  margin-top: var(--v-space-3);
+  font-size: var(--v-text-lg);
+  color: var(--text-muted);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--v-space-2);
+}
+
+.controls button {
+  cursor: pointer;
+
+  min-height: var(--v-size-hit);
+  padding: var(--v-space-2) var(--v-space-4);
+  border: var(--v-border-frame) solid var(--text-primary);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  font-weight: var(--v-weight-bold);
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: var(--v-tracking-label);
+
+  background: var(--surface-raised);
+
+  transition:
+    color var(--v-duration-fast) var(--v-ease-out),
+    border-color var(--v-duration-fast) var(--v-ease-out),
+    background-color var(--v-duration-fast) var(--v-ease-out);
+}
+
+.controls button:hover {
+  background: var(--accent-subtle-bg);
+}
+
+.controls button:active {
+  color: var(--text-accent);
+}
+
+.controls .send {
+  color: var(--surface-page);
+  background: var(--text-primary);
+}
+
+.controls .send:hover {
+  border-color: var(--accent-hover);
+  color: var(--text-on-accent);
+  background: var(--accent-hover);
+}
+
+.controls .send:active {
+  border-color: var(--accent-active);
+  color: var(--text-on-accent);
+  background: var(--accent-active);
+}
+
+.figure {
+  border: var(--v-border-frame) solid var(--text-primary);
+  background: var(--surface-raised);
+}
+
+.map {
+  --lane-server: color-mix(
+    in srgb,
+    var(--story-server) 7%,
+    var(--surface-raised)
+  );
+  --lane-client: color-mix(
+    in srgb,
+    var(--story-client) 7%,
+    var(--surface-raised)
+  );
+}
+
+.map svg {
+  display: block;
+  width: 100%;
+}
+
+.map svg svg {
+  width: 30px;
+  height: 30px;
+  color: inherit;
+}
+
+.icon {
+  color: var(--text-muted);
+  transition: color var(--v-duration-base) var(--v-ease-out);
+}
+
+.icon[data-active='true'] {
+  color: var(--text-primary);
+}
+
+.server-lane {
+  fill: var(--lane-server);
+  stroke: var(--story-server);
+}
+
+.shared-lane {
+  stroke: var(--border-rule);
+  stroke-dasharray: 4 5;
+}
+
+.client-lane {
+  fill: var(--lane-client);
+  stroke: var(--story-client);
+}
+
+.lane-label {
+  font: var(--v-weight-bold) 10px var(--v-font-mono);
+  letter-spacing: 1px;
+  fill: var(--text-muted);
+}
+
+.lane-label[data-lane='server'] {
+  fill: var(--story-server);
+}
+
+.lane-label[data-lane='client'] {
+  fill: var(--story-client);
+}
+
+.track {
+  stroke: var(--border-rule);
+  stroke-width: 1px;
+}
+
+.trail {
+  stroke: var(--accent);
+  stroke-width: 3px;
+}
+
+.tile-edge {
+  fill: var(--surface-sunken);
+  stroke: var(--border-rule);
+  transition:
+    fill var(--v-duration-base) var(--v-ease-out),
+    stroke var(--v-duration-base) var(--v-ease-out);
+}
+
+.tile-edge[data-active='true'] {
+  fill: var(--accent);
+  stroke: var(--text-primary);
+}
+
+.tile {
+  fill: var(--surface-raised);
+  stroke: var(--border-rule);
+  transition: stroke var(--v-duration-base) var(--v-ease-out);
+}
+
+.tile[data-active='true'] {
+  stroke: var(--text-primary);
+}
+
+/* A label keeps a halo in the colour of its lane, so a track that passes
+   behind it does not strike through the name. */
+.tool-label {
+  font: var(--v-weight-semibold) 12px var(--v-font-mono);
+  paint-order: stroke;
+
+  text-anchor: middle;
+  fill: var(--text-primary);
+  stroke: var(--surface-raised);
+  stroke-linejoin: round;
+  stroke-width: 6px;
+}
+
+.tool-label[data-boundary='Server'] {
+  stroke: var(--lane-server);
+}
+
+.tool-label[data-boundary='Browser'] {
+  stroke: var(--lane-client);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: var(--v-border-hairline) solid var(--border-default);
+}
+
+.steps button {
+  --hue: var(--text-primary);
+
+  cursor: pointer;
+
+  display: flex;
+  gap: var(--v-space-2);
+  align-items: center;
+  justify-content: center;
+
+  min-height: 3.25rem;
+  padding: var(--v-space-2);
+  border: 0;
+  border-right: var(--v-border-hairline) solid var(--border-default);
+  border-bottom: var(--v-border-hairline) solid var(--border-default);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-sm);
+  font-weight: var(--v-weight-bold);
+  color: var(--hue);
+
+  background: transparent;
+
+  transition:
+    color var(--v-duration-fast) var(--v-ease-out),
+    background-color var(--v-duration-fast) var(--v-ease-out);
+}
+
+.steps button[data-boundary='Server'] {
+  --hue: var(--story-server);
+}
+
+.steps button[data-boundary='Browser'] {
+  --hue: var(--story-client);
+}
+
+.steps button:nth-child(3n) {
+  border-right: 0;
+}
+
+.steps button span {
+  font-size: var(--v-text-xs);
+  color: var(--text-accent);
+}
+
+.steps button:hover {
+  background: color-mix(in srgb, var(--hue) 9%, transparent);
+}
+
+.steps button:active {
+  background: color-mix(in srgb, var(--hue) 18%, transparent);
+}
+
+.steps button[aria-pressed='true'] {
+  color: var(--surface-raised);
+  background: var(--hue);
+}
+
+.steps button[aria-pressed='true'] span {
+  color: inherit;
+}
+
+/* The focus ring lies above the neighbouring tabs. */
+.steps button:focus-visible {
+  position: relative;
+  z-index: var(--v-z-raised);
+}
+
+.detail {
+  display: grid;
+  gap: var(--v-space-4);
+  align-items: start;
+
+  min-height: 17rem;
+  padding: var(--v-space-5) var(--v-space-4);
+}
+
+.file {
+  display: flex;
+  flex-direction: column;
+  gap: var(--v-space-2);
+  align-items: flex-start;
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+}
+
+.boundary-label {
+  --hue: var(--text-primary);
+
+  padding: var(--v-space-1) var(--v-space-2);
+  border: var(--v-border-frame) solid var(--hue);
+
+  font-weight: var(--v-weight-bold);
+  color: var(--hue);
+  text-transform: uppercase;
+  letter-spacing: var(--v-tracking-label);
+}
+
+.boundary-label[data-boundary='Server'] {
+  --hue: var(--story-server);
+}
+
+.boundary-label[data-boundary='Browser'] {
+  --hue: var(--story-client);
+}
+
+.file code {
+  font-size: inherit;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.detail h3 {
+  font-size: var(--v-text-xl);
+  font-weight: var(--v-weight-extrabold);
+  letter-spacing: var(--v-tracking-heading);
+}
+
+.detail p {
+  max-width: var(--v-size-prose);
+  margin-top: var(--v-space-2);
+  font-size: var(--v-text-sm);
+  color: var(--text-muted);
+}
+
+/* The function trace is a terminal: dark in both themes. */
+.source-trace {
+  margin: 0 var(--v-space-4);
+  border: var(--v-border-hairline) solid var(--border-rule);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  color: var(--v-terminal-text);
+
+  background: var(--v-terminal-bg);
+}
+
+.trace-label {
+  display: flex;
+  align-items: center;
+
+  min-height: var(--v-size-terminal-bar);
+  padding: var(--v-space-1) var(--v-space-4);
+  border-bottom: var(--v-border-hairline) solid var(--v-terminal-line);
+
+  font-weight: var(--v-weight-bold);
+  color: var(--v-terminal-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--v-tracking-label);
+}
+
+.source-trace pre {
+  padding: var(--v-space-3) var(--v-space-4) var(--v-space-4);
+
+  font: inherit;
+  line-height: var(--v-leading-relaxed);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.caption {
+  margin-top: var(--v-space-5);
+  padding: var(--v-space-3) var(--v-space-4);
+  border-top: var(--v-border-hairline) solid var(--border-default);
+
+  font-family: var(--v-font-mono);
+  font-size: var(--v-text-xs);
+  color: var(--text-muted);
+}
+
+@media (--below-sm) {
+  .map {
+    overflow: hidden;
+  }
+
+  .map > svg {
+    width: calc(100% + var(--v-space-4));
+    max-width: none;
+    margin-left: calc(var(--v-space-2) * -1);
+  }
+
+  /* The drawing is a third of its size here: its labels grow to stay
+     readable. */
+  .lane-label {
+    font-size: 15px;
+  }
+
+  .tool-label {
+    transform: translateY(10px);
+    font-size: 24px;
+  }
+}
+
+@media (--sm) {
+  .steps {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .steps button:nth-child(3n) {
+    border-right: var(--v-border-hairline) solid var(--border-default);
+  }
+
+  .steps button:last-child {
+    border-right: 0;
+  }
+
+  .detail {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--v-space-6);
+    min-height: 11rem;
+    padding: var(--v-space-6);
+  }
+
+  .source-trace {
+    margin-inline: var(--v-space-6);
+  }
+
+  .caption {
+    padding-inline: var(--v-space-6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .controls button,
+  .icon,
+  .tile-edge,
+  .tile,
+  .steps button {
+    transition: none;
+  }
+}

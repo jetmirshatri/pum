@@ -1,0 +1,546 @@
+/*
+ * The mechanics of the eight figures. --p is the scroll progress of the
+ * chapter (0 to 1); --fd and --fp say how present the demo and the postgres
+ * overlay are (the reader's flags); the other inputs are custom properties
+ * that a chapter's panel animates, and data-story-* states that it sets.
+ */
+
+/* 00 and 07: the assembled block. It breathes, and in 00 it comes apart. */
+.assembled {
+  --ease: calc(var(--p) * var(--p) * (3 - 2 * var(--p)));
+  --gap: calc(var(--ease) * 74 + var(--breath) * 5);
+  --to: clamp(0, calc(var(--p) * 4 - 2), 1);
+  --turn: calc(var(--sway) * 2.5deg);
+  --cx: 34%;
+  --cy: 60%;
+}
+
+.inspected {
+  --gap: calc(var(--breath) * 5);
+  --to: 1;
+  --cy: 52%;
+}
+
+/* A rubber stamp. --t is the progress at which it lands. */
+.stamp {
+  --sk: clamp(0, calc((var(--p) - var(--t)) / 0.05), 1);
+
+  position: absolute;
+  top: var(--sy);
+  left: var(--sx);
+  transform: rotate(var(--a)) scale(calc(1.9 - var(--sk) * 0.9));
+
+  padding: 0.3rem 0.4rem;
+  border: var(--v-border-frame) solid var(--text-accent);
+  border-radius: var(--v-radius-lg);
+
+  font-family: var(--v-font-mono);
+  font-size: 0.56rem;
+  font-weight: var(--v-weight-extrabold);
+  line-height: var(--v-leading-tight);
+  color: var(--text-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+
+  opacity: calc(var(--sk) * 0.94);
+  background: color-mix(in srgb, var(--surface-page) 72%, transparent);
+}
+
+/* 01: bricks land with the terminal lines that write them. --q is how far the
+   run has printed: it follows the scroll until the reader presses run. */
+.create {
+  --q: clamp(0, calc((var(--p) - 0.04) / 0.6), 1);
+}
+
+.create[data-story-run='on'] {
+  --q: var(--run);
+}
+
+.landing {
+  --cx: 38%;
+  --cy: 56%;
+}
+
+.landing .drop {
+  --landed: clamp(0, calc(var(--q) * (var(--n) + 2) - var(--i)), 1);
+  --o: var(--landed);
+  --to: var(--landed);
+  --z: calc(20.5 + (1 - var(--landed)) * 70);
+}
+
+.landing .drop-plate {
+  --z: calc(14 + (1 - var(--landed)) * 70);
+}
+
+.landing .drop-demo {
+  --o: calc(var(--landed) * var(--fd));
+}
+
+.landing .drop-postgres {
+  --o: calc(var(--landed) * var(--fp));
+}
+
+/* 02: three layers drop in, then compress into one project. */
+.stack {
+  --a1: clamp(0, calc(var(--p) / 0.15), 1);
+  --a2: clamp(0, calc((var(--p) - 0.2) / 0.17), 1);
+  --a3: clamp(0, calc((var(--p) - 0.42) / 0.17), 1);
+  --merge: clamp(0, calc((var(--p) - 0.76) / 0.2), 1);
+  --rise: calc(21 + (1 - var(--merge)) * 76);
+  --cx: 34%;
+  --cy: 60%;
+}
+
+.stack-base {
+  --lz: calc((1 - var(--a1)) * 110);
+  --o: var(--a1);
+}
+
+.stack-demo {
+  --lz: calc(var(--rise) + (1 - var(--a2)) * 110);
+  --o: calc(var(--a2) * var(--fd));
+}
+
+.stack-postgres {
+  --lz: calc(var(--rise) * (1 + var(--fd)) + (1 - var(--a3)) * 110);
+  --o: calc(var(--a3) * var(--fp));
+}
+
+.stack .origin {
+  --to: calc(1 - var(--merge));
+}
+
+.stack .merged {
+  --to: var(--merge);
+}
+
+.stack .wins {
+  --to: calc(var(--a2) * (1 - var(--merge)) * var(--fd));
+}
+
+[data-story-pick='base'] .stack-base .pick,
+[data-story-pick='demo'] .stack-demo .pick,
+[data-story-pick='postgres'] .stack-postgres .pick {
+  --fill: 74%;
+}
+
+/* 03 and 04: the project in three tiers, with the manifest underneath. */
+.tiers {
+  --open: clamp(0, calc((var(--p) - 0.05) / 0.4), 1);
+  --rise: calc(10 + var(--open) * 86);
+  --hashes: clamp(0, calc((var(--p) - 0.5) / 0.3), 1);
+  --to: clamp(0, calc(var(--open) * 3 - 2), 1);
+  --cx: 34%;
+  --cy: 61%;
+}
+
+.tiers.tiers-update {
+  --open: clamp(0, calc(var(--p) / 0.28), 1);
+  --hashes: 1;
+}
+
+.tier-managed {
+  --lz: calc(3 + var(--rise));
+}
+
+.tier-yours {
+  --lz: calc(17 + var(--rise) * 2);
+}
+
+.tiers .receipt {
+  --c: var(--text-muted);
+  --fill: 3%;
+  --thick: 3;
+  --z: 3;
+}
+
+.tiers .frame {
+  --fill: 5%;
+}
+
+.tiers .drizzle {
+  --o: var(--fp);
+}
+
+/* A line of the manifest: one hash. */
+.hash {
+  position: absolute;
+  top: calc(var(--y) * var(--cell));
+  left: calc(-5.3 * var(--cell));
+  transform-origin: left;
+  transform: translateZ(calc(3.8 * var(--unit)))
+    scaleX(clamp(0, calc(var(--hashes) * 5 - var(--row) * 0.8), 1));
+
+  width: calc(var(--w) * var(--cell));
+  height: calc(0.4 * var(--cell));
+
+  background: var(--text-muted);
+}
+
+[data-story-tier='you'] .tier-yours .pick,
+[data-story-tier='tpl'] .tier-managed .pick,
+[data-story-tier='both'] .tier-managed .pick {
+  --fill: 76%;
+}
+
+[data-story-tier='rec'] .tiers .receipt,
+[data-story-tier='both'] .tiers .receipt {
+  --c: var(--story-managed);
+  --fill: 26%;
+}
+
+/* 04: the panel animates --out (the brick slides out), --sw (it is swapped),
+   --add (a brick lands), --cf (a conflict) and --bak (the backup copy). */
+.tiers .moved {
+  --c: color-mix(
+    in srgb,
+    var(--story-update) calc(var(--sw) * 100%),
+    var(--story-managed)
+  );
+  --dy: calc(var(--out) * 5.4);
+
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent 0 4px,
+    color-mix(in srgb, var(--text-primary) calc(var(--cf) * 70%), transparent)
+      4px 5.5px
+  );
+}
+
+[data-story-mode='conflict'] .tiers .moved {
+  animation: refuse 2.6s var(--v-ease-out) infinite;
+}
+
+.tiers .added {
+  --c: var(--story-add);
+  --o: var(--add);
+  --z: calc(20.5 + (1 - var(--add)) * 70);
+}
+
+.tiers .backup {
+  --c: var(--text-muted);
+  --o: var(--bak);
+  --thick: 4;
+  --z: 14;
+}
+
+.stamp-blocked {
+  --sk: var(--cf);
+}
+
+/* 05: four plates and a request that goes where the reader steps. */
+.hops {
+  --e: clamp(0, calc(var(--p) / 0.2), 1);
+  --rise: calc(26 + var(--e) * 74);
+  --h0: 14;
+  --h1: calc(14 + var(--rise));
+  --h2: calc(14 + var(--rise) * 2);
+  --h3: calc(14 + var(--rise) * 3);
+  --to: var(--e);
+  --hz: var(--h3);
+  --seen: 0;
+  --cx: 34%;
+  --cy: 65%;
+}
+
+.hops .plate-ssr {
+  --c: var(--text-muted);
+  --z: var(--h0);
+}
+
+.hops .plate-rsc {
+  --c: var(--story-server);
+  --z: var(--h1);
+}
+
+.hops .plate-server {
+  --z: var(--h2);
+}
+
+.browser {
+  --lz: calc(var(--h3) - 14);
+}
+
+.hops .region {
+  --thick: 3;
+  --z: 17.5;
+}
+
+.hops .island {
+  --thick: 5;
+  --z: 19.5;
+}
+
+.dot,
+.chunk {
+  position: absolute;
+  transform: rotateZ(45deg) rotateX(-56deg) translateZ(300px);
+}
+
+.dot {
+  top: calc(4.5 * var(--cell));
+  left: calc(-4.5 * var(--cell));
+  translate: 0 0 calc(var(--hz) * var(--unit) + 12px);
+
+  width: 14px;
+  height: 14px;
+  margin: -7px;
+  border-radius: var(--v-radius-full);
+
+  opacity: var(--seen);
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+
+  transition:
+    translate 0.8s var(--v-ease-out),
+    opacity var(--v-duration-base) var(--v-ease-out);
+}
+
+.chunk {
+  top: calc(-6.6 * var(--cell));
+  left: calc(-6.6 * var(--cell));
+
+  width: 9px;
+  height: 9px;
+  margin: -4.5px;
+
+  opacity: 0;
+  background: var(--text-primary);
+}
+
+[data-story-hop='1'] .hops {
+  --hz: var(--h3);
+  --seen: 1;
+}
+
+[data-story-hop='2'] .hops {
+  --hz: var(--h2);
+  --seen: 1;
+}
+
+[data-story-hop='3'] .hops {
+  --hz: var(--h1);
+  --seen: 1;
+}
+
+[data-story-hop='4'] .hops {
+  --hz: var(--h0);
+  --seen: 1;
+}
+
+[data-story-hop='2'] .hops .plate-server,
+[data-story-hop='4'] .hops .plate-ssr {
+  --fill: 48%;
+}
+
+[data-story-hop='3'] .hops .plate-rsc {
+  --fill: 52%;
+}
+
+[data-story-hop='6'] .hops .island {
+  --fill: 80%;
+}
+
+[data-story-hop='5'] .chunk {
+  animation: rise 1.5s linear both;
+  animation-delay: calc(var(--row) * 0.25s);
+}
+
+/* A navigation skips the HTML: the payload goes back from entry.rsc.tsx. */
+[data-story-mode='nav'] .hops .plate-ssr {
+  --o: 0.28;
+}
+
+.hops .for-nav {
+  --to: 0;
+}
+
+[data-story-mode='nav'] .hops .for-nav {
+  --to: var(--e);
+}
+
+[data-story-mode='nav'] .hops .for-doc {
+  --to: 0;
+}
+
+[data-story-mode='nav'] .chunk {
+  --from: var(--h1);
+
+  background: var(--story-server);
+}
+
+/* 06: three strips descend from the config, fan out and land in build/. */
+.fan {
+  --spread: clamp(0, calc((var(--p) - 0.1) / 0.4), 1);
+  --landed: calc(clamp(0, calc((var(--p) - 0.56) / 0.2), 1) * var(--tray));
+  --cx: 34%;
+  --cy: 60%;
+}
+
+.fan .tray {
+  --o: var(--landed);
+  --fill: 0%;
+  --thick: 1;
+  --z: 1;
+}
+
+.fan .strip {
+  --fill: 26%;
+  --thick: 10;
+  --w: 3.6;
+  --z: calc(132 - var(--spread) * 121);
+}
+
+.fan .strip-client {
+  --c: var(--story-client);
+  --dx: calc(var(--spread) * -1.6);
+}
+
+.fan .strip-rsc {
+  --c: var(--story-server);
+  --x: -1.8;
+}
+
+.fan .strip-ssr {
+  --dx: calc(var(--spread) * 1.6);
+  --x: 2.4;
+}
+
+.fan .strip-tag {
+  --to: clamp(0, calc(var(--spread) * 2.5 - 1), 1);
+}
+
+.into {
+  opacity: var(--landed);
+}
+
+.fan .config {
+  --c: var(--text-primary);
+  --z: 150;
+}
+
+.fan .fall {
+  --len: calc(var(--spread) * 121 + 4);
+  --to: var(--spread);
+  --y: 6.2;
+  --z: 136;
+}
+
+[data-story-run='dev'] .fan .strip {
+  animation: hmr 1.8s ease-in-out infinite;
+}
+
+[data-story-run='start'] .fan .config {
+  --o: 0.22;
+}
+
+[data-story-run='start'] .fan .fall {
+  --to: 0.2;
+}
+
+@keyframes refuse {
+  0%,
+  55%,
+  100% {
+    translate: 0 0;
+  }
+
+  62% {
+    translate: 0 calc(var(--cell) * 0.9);
+  }
+
+  70% {
+    translate: 0 0;
+  }
+
+  76% {
+    translate: 0 calc(var(--cell) * 0.45);
+  }
+
+  84% {
+    translate: 0 0;
+  }
+}
+
+@keyframes rise {
+  0% {
+    translate: 0 0 calc(var(--from, var(--h0)) * var(--unit));
+    opacity: 0;
+  }
+
+  15%,
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    translate: 0 0 calc(var(--h3) * var(--unit));
+    opacity: 0;
+  }
+}
+
+@keyframes hmr {
+  0%,
+  100% {
+    --fill: 26%;
+  }
+
+  50% {
+    --fill: 66%;
+  }
+}
+
+@media (--md) {
+  .assembled {
+    --cx: 40%;
+  }
+
+  .inspected {
+    --cx: 42%;
+  }
+
+  .landing,
+  .stack,
+  .tiers,
+  .fan {
+    --cx: 42%;
+  }
+
+  .landing {
+    --cy: 57%;
+  }
+
+  /* The block and the request stand a little smaller: their labels are wide. */
+  .assembled,
+  .hops {
+    --plate: clamp(11.875rem, 17.4vw, 15.625rem);
+  }
+
+  .hops {
+    --cx: 40%;
+  }
+
+  .stamp {
+    padding: 0.42rem 0.6rem;
+    border-width: var(--v-border-emphasis);
+    font-size: 0.72rem;
+  }
+}
+
+@media (--lg) {
+  .hops {
+    --cx: 45.5%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-story-mode='conflict'] .tiers .moved,
+  [data-story-hop='5'] .chunk,
+  [data-story-run='dev'] .fan .strip {
+    animation: none;
+  }
+
+  .dot {
+    transition: none;
+  }
+}
